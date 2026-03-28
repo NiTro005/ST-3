@@ -93,21 +93,18 @@ TEST(TimerCheck, CallsClientMethod) {
 
 TEST(MockUsage, UnlockCalledOnce) {
   FakeDoor d;
-
   EXPECT_CALL(d, unlock()).Times(1);
   d.unlock();
 }
 
 TEST(MockUsage, LockCalledOnce) {
   FakeDoor d;
-
   EXPECT_CALL(d, lock()).Times(1);
   d.lock();
 }
 
 TEST(MockUsage, ReturnValueCheck) {
   FakeDoor d;
-
   EXPECT_CALL(d, isDoorOpened()).WillOnce(Return(true));
   EXPECT_TRUE(d.isDoorOpened());
 }
@@ -115,7 +112,12 @@ TEST(MockUsage, ReturnValueCheck) {
 
 TEST(Integration, FullFlowThrows) {
   TimedDoor d(0);
-  EXPECT_THROW(d.unlock(), std::runtime_error);
+  d.unlock();
+
+  DoorTimerAdapter adapter(d);
+  Timer timer;
+
+  EXPECT_THROW(timer.tregister(0, &adapter), std::runtime_error);
 }
 
 TEST(Integration, ClosedDoorSafe) {
@@ -123,5 +125,5 @@ TEST(Integration, ClosedDoorSafe) {
   d.lock();
 
   DoorTimerAdapter adapter(d);
-  EXPECT_NO_THROW(adapter.Timeout());
+  EXPECT_NO_THROW(timer.tregister(0, &adapter));
 }

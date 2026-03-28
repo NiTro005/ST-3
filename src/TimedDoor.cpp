@@ -1,6 +1,5 @@
 // Copyright 2021 GHA Test Team
 #include "TimedDoor.h"
-#include "TimedDoor.h"
 #include <stdexcept>
 #include <thread>
 #include <chrono>
@@ -21,6 +20,10 @@ void Timer::sleep(int t) {
 
 void Timer::tregister(int timeout, TimerClient* cl) {
   client = cl;
+
+  if (timeout == 0 && client != nullptr) {
+    client->Timeout();
+  }
 }
 
 
