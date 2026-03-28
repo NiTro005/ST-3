@@ -125,5 +125,6 @@ TEST(Integration, ClosedDoorSafe) {
   d.lock();
 
   DoorTimerAdapter adapter(d);
+  Timer timer;
   EXPECT_NO_THROW(timer.tregister(0, &adapter));
 }
