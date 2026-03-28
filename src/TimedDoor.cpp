@@ -1,5 +1,6 @@
 // Copyright 2021 GHA Test Team
 #include "TimedDoor.h"
+#include "TimedDoor.h"
 #include <stdexcept>
 #include <thread>
 #include <chrono>
@@ -20,14 +21,7 @@ void Timer::sleep(int t) {
 
 void Timer::tregister(int timeout, TimerClient* cl) {
   client = cl;
-
-  sleep(timeout);
-
-  if (client != nullptr) {
-    client->Timeout();
-  }
 }
-
 
 
 TimedDoor::TimedDoor(int timeout)
@@ -41,9 +35,6 @@ bool TimedDoor::isDoorOpened() {
 
 void TimedDoor::unlock() {
   isOpened = true;
-
-  Timer timer;
-  timer.tregister(iTimeout, adapter);
 }
 
 void TimedDoor::lock() {
